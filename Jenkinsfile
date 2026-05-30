@@ -55,7 +55,7 @@ pipeline {
             }
             post {
                 success {
-                    archiveArtifacts artifacts: 'target/*-javadoc.jar', allowEmptyArchive: true, failNoFiles: false, fingerprint: true
+                    archiveArtifacts artifacts: 'target/*-javadoc.jar', allowEmptyArchive: true, fingerprint: true
                 }
             }
         }
