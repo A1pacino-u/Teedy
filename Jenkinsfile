@@ -34,11 +34,11 @@ pipeline {
             steps {
                 bat 'mvn pmd:pmd'
             }
-            post {
+           
                 
                     // pmd canRunOnFailed: true, pattern: 'target/pmd.xml'
                 
-            }
+           
         }
         stage('Test') {
             steps {
