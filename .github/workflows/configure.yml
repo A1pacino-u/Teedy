@@ -27,7 +27,7 @@ jobs:
       # 3. Maven构建、PMD代码检查与运行测试
       # 注意：这里去掉了之前 Jenkins 中跳过 JavaDoc 的参数，让 Actions 正常生成文档
       - name: Build, PMD Check and Test with Maven
-        run: mvn clean verify pmd:pmd -DskipTests
+        run: mvn clean verify pmd:pmd -DskipTests -Dmaven.javadoc.skip=true
       # 4. 生成 JavaDoc 文档
       - name: Generate JavaDoc
         run: mvn javadoc:javadoc
