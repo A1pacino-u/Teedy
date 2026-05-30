@@ -42,7 +42,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                bat 'mvn clean compile -DskipTests'
+                bat 'mvn clean package -DskipTests -Dmaven.javadoc.skip=true'
             }
            
                     // junit 'target/surefire-reports/*.xml'
