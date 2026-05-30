@@ -9,37 +9,61 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/A1pacino-u/Teedy.git',
+                        // 强制跳过 SSL 验证
+                        extensions: [[$class: 'UserConfigProvider', configs: [[key: 'http.sslVerify', value: 'false']]]]
+                    ]]
+                ])
             }
         }
         stage('Build') {
             steps {
-                echo '开始编译项目...'
-                bat 'mvn clean compile'
+                sh 'mvn clean package -DskipTests'
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts: '**/*.jar', fingerprint: true
+                }
             }
         }
-        stage('Test & PMD') {
+        stage('PMD Check') {
             steps {
-                echo '运行单元测试与PMD代码检查...'
-                bat 'mvn test pmd:pmd'
+                sh 'mvn pmd:pmd'
+            }
+            post {
+                always {
+                    pmd canRunOnFailed: true, pattern: 'target/pmd.xml'
+                }
             }
         }
-        stage('Package & Javadoc') {
+        stage('Test') {
             steps {
-                echo '打包项目并生成文档...'
-                bat 'mvn package javadoc:javadoc'
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
+            }
+        }
+        stage('JavaDoc') {
+            steps {
+                sh 'mvn javadoc:jar'
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts: 'target/*-javadoc.jar', fingerprint: true
+                }
             }
         }
     }
-
     post {
-        success {
-            echo '🎉 流水线执行成功！'
-            archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-            archiveArtifacts artifacts: '**/target/site/javadoc/**', fingerprint: true
-        }
-        failure {
-            echo '❌ 流水线执行失败，请检查日志！'
+        always {
+            cleanWs()
         }
     }
 }
