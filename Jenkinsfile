@@ -44,11 +44,10 @@ pipeline {
             steps {
                 bat 'mvn test -DskipTests'
             }
-            post {
-                always {
+           
                     // junit 'target/surefire-reports/*.xml'
-                }
-            }
+                
+            
         }
         stage('JavaDoc') {
             steps {
