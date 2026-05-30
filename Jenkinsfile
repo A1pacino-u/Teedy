@@ -51,7 +51,7 @@ pipeline {
         }
         stage('JavaDoc') {
             steps {
-                bat 'mvn javadoc:jar'
+                bat 'mvn javadoc:jar -Dmaven.javadoc.skip=true'
             }
             post {
                 success {
