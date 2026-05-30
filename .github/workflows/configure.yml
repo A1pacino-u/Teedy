@@ -29,8 +29,8 @@ jobs:
       - name: Build, PMD Check and Test with Maven
         run: mvn clean verify pmd:pmd -DskipTests -Dmaven.javadoc.skip=true
       # 4. 生成 JavaDoc 文档
-      - name: Generate JavaDoc
-        run: mvn javadoc:javadoc
+      # - name: Generate JavaDoc
+        # run: mvn javadoc:javadoc
 
       # 5. 上传构建产物 (可执行 jar 包)
       - name: Upload Build Artifact (JAR)
