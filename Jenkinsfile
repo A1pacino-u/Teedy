@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                bat 'mvn clean package -DskipTests'
             }
             post {
                 success {
@@ -32,7 +32,7 @@ pipeline {
         }
         stage('PMD Check') {
             steps {
-                sh 'mvn pmd:pmd'
+                bat 'mvn pmd:pmd'
             }
             post {
                 always {
@@ -42,7 +42,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+                bat 'mvn test'
             }
             post {
                 always {
@@ -52,7 +52,7 @@ pipeline {
         }
         stage('JavaDoc') {
             steps {
-                sh 'mvn javadoc:jar'
+                bat 'mvn javadoc:jar'
             }
             post {
                 success {
