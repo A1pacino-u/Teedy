@@ -35,9 +35,9 @@ pipeline {
                 bat 'mvn pmd:pmd'
             }
             post {
-                always {
+                
                     // pmd canRunOnFailed: true, pattern: 'target/pmd.xml'
-                }
+                
             }
         }
         stage('Test') {
